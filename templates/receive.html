@@ -1,0 +1,89 @@
+<!-- templates/receive.html (Receiver Page) -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>P2P File Share - Receive</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/simple-peer/9.11.1/simplepeer.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <img src="{{ url_for('static', filename='img/logo.svg') }}" alt="P2P File Share Logo">
+                <h1>P2P File Share</h1>
+            </div>
+            <p class="tagline">Securely receive files directly from browser to browser</p>
+        </header>
+
+        <main>
+            <section id="connecting">
+                <div class="connecting-message">
+                    <div class="spinner"></div>
+                    <h3>Connecting to sender...</h3>
+                    <p>Please wait while we establish a secure connection</p>
+                </div>
+            </section>
+
+            <section id="file-info" style="display: none;">
+                <div class="file-details">
+                    <h3>File ready to download</h3>
+                    <div class="file-meta">
+                        <p id="receive-file-name"></p>
+                        <p id="receive-file-size"></p>
+                        <p id="receive-file-type"></p>
+                    </div>
+                </div>
+                <button id="download-button" class="primary-button">Start Download</button>
+            </section>
+
+            <section id="receive-progress" style="display: none;">
+                <h3>Transfer in progress</h3>
+                <div class="progress-container">
+                    <div class="progress-bar" id="receive-progress-bar"></div>
+                </div>
+                <p id="receive-progress-info">0% - Receiving file...</p>
+            </section>
+
+            <section id="download-complete" style="display: none;">
+                <div class="success-message">
+                    <svg class="success-icon" viewBox="0 0 24 24">
+                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path>
+                    </svg>
+                    <h3>Download Complete!</h3>
+                </div>
+                <div class="download-actions">
+                    <a id="save-file-link" class="primary-button" download>Save File</a>
+                    <button id="new-download" class="secondary-button">Receive Another File</button>
+                </div>
+            </section>
+
+            <section id="error-message" style="display: none;">
+                <div class="error-container">
+                    <svg class="error-icon" viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"></path>
+                    </svg>
+                    <h3>Connection Error</h3>
+                    <p id="error-details">The sender may have closed their browser or the connection was lost.</p>
+                </div>
+                <a href="/" class="primary-button">Return to Home</a>
+            </section>
+        </main>
+
+        <footer>
+            <p>Files are transferred directly browser-to-browser. No server storage.</p>
+            <p>© 2025 P2P File Share</p>
+        </footer>
+    </div>
+
+    <script>
+        // Pass room ID from Flask to JavaScript
+        const ROOM_ID = "{{ room_id }}";
+    </script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/receiver.js') }}"></script>
+</body>
+</html>

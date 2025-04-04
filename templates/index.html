@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>P2P File Share - Send</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/simple-peer/9.11.1/simplepeer.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <img src="{{ url_for('static', filename='img/logo.svg') }}" alt="P2P File Share Logo">
+                <h1>P2P File Share</h1>
+            </div>
+            <p class="tagline">Securely send files directly from browser to browser</p>
+        </header>
+
+        <main>
+            <section id="file-selector">
+                <div class="upload-area" id="drop-area">
+                    <input type="file" id="file-input" hidden>
+                    <div class="upload-prompt">
+                        <svg class="upload-icon" viewBox="0 0 24 24">
+                            <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"></path>
+                        </svg>
+                        <h2>Drop your file here</h2>
+                        <p>or click to browse</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="selected-file" style="display: none;">
+                <div class="file-info">
+                    <h3 id="file-name"></h3>
+                    <p id="file-size"></p>
+                    <p id="file-type"></p>
+                </div>
+                <button id="send-button" class="primary-button">Generate Sharing Link</button>
+            </section>
+
+            <section id="share-link" style="display: none;">
+                <h3>Your file is ready to share!</h3>
+                <p>Send this link to the receiver:</p>
+                <div class="link-container">
+                    <input type="text" id="share-url" readonly>
+                    <button id="copy-link" class="secondary-button">Copy</button>
+                </div>
+                <div class="waiting-message">
+                    <p>Keep this page open until the transfer is complete</p>
+                    <div class="spinner"></div>
+                </div>
+            </section>
+
+            <section id="transfer-status" style="display: none;">
+                <h3>Transfer in progress</h3>
+                <div class="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
+                <p id="transfer-info">0% - Connecting to receiver...</p>
+            </section>
+
+            <section id="transfer-complete" style="display: none;">
+                <div class="success-message">
+                    <svg class="success-icon" viewBox="0 0 24 24">
+                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path>
+                    </svg>
+                    <h3>Transfer Complete!</h3>
+                </div>
+                <button id="new-transfer" class="primary-button">Share Another File</button>
+            </section>
+        </main>
+
+        <footer>
+            <p>Files are transferred directly browser-to-browser. No server storage.</p>
+            <p>© 2025 P2P File Share</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/sender.js') }}"></script>
+</body>
+</html>
